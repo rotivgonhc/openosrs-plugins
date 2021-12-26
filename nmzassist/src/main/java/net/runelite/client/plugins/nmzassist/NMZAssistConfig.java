@@ -16,7 +16,7 @@ public interface NMZAssistConfig extends Config
 	)
 	default int minPrayerLevel()
 	{
-		return 1;
+		return 5;
 	}
 
 	@ConfigItem(
