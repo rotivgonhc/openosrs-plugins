@@ -98,10 +98,13 @@ open class BootstrapTask : DefaultTask() {
 					plugin.copyTo(Paths.get(bootstrapReleaseDir.toString(), "${it.project.name}-${it.project.version}.jar").toFile(), true)
 				}
 			}
+			File(project.rootDir, "plugins.json").delete()
 
 			File(bootstrapDir, "plugins.json").printWriter().use { out ->
 				out.println(plugins.toString())
 			}
+
+			File(bootstrapDir, "plugins.json").copyTo(Paths.get(project.rootDir.path, "plugins.json").toFile())
 		}
 
 	}
