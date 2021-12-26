@@ -95,7 +95,7 @@ open class BootstrapTask : DefaultTask() {
 						plugins.add(pluginObject)
 					}
 
-					plugin.copyTo(Paths.get(bootstrapReleaseDir.toString(), "${it.project.name}-${it.project.version}.jar").toFile(), true)
+					plugin.copyTo(Paths.get(project.rootDir.path, "release", "${it.project.name}-${it.project.version}.jar").toFile(), true)
 				}
 			}
 			File(project.rootDir, "plugins.json").delete()
