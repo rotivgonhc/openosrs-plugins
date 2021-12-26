@@ -41,7 +41,7 @@ open class BootstrapTask : DefaultTask() {
 	fun boostrap() {
 		if (project == project.rootProject) {
 			val bootstrapDir = File("${project.buildDir}")
-			val bootstrapReleaseDir = File("${project.buildDir}/release")
+			val bootstrapReleaseDir = File("${project.rootDir}/release")
 
 			bootstrapDir.mkdirs()
 			bootstrapReleaseDir.mkdirs()
@@ -98,8 +98,9 @@ open class BootstrapTask : DefaultTask() {
 					plugin.copyTo(Paths.get(bootstrapReleaseDir.toString(), "${it.project.name}-${it.project.version}.jar").toFile())
 				}
 			}
+			File(project.rootDir, "plugins.json").delete()
 
-			File(bootstrapDir, "plugins.json").printWriter().use { out ->
+			File(project.rootDir, "plugins.json").printWriter().use { out ->
 				out.println(plugins.toString())
 			}
 		}

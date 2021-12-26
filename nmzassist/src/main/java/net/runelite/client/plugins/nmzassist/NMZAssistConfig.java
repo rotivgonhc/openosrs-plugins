@@ -21,7 +21,7 @@ public interface NMZAssistConfig extends Config
 
 	@ConfigItem(
 			keyName = "maxPrayerLevel",
-			name = "Maximum Prayer points to restore to",
+			name = "Maximum Prayer points to sip restore",
 			description = "",
 			position = 2
 	)
