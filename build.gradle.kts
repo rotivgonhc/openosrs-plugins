@@ -24,7 +24,7 @@ subprojects {
 	group = "com.rotivgonhc.externals"
 
 	project.extra["PluginProvider"] = "rotivgonhc"
-	project.extra["ProjectSupportUrl"] = ""
+	project.extra["ProjectUrl"] = "https://github.com/rotivgonhc/openosrs-plugins"
 	project.extra["PluginLicense"] = "3-Clause BSD License"
 
 	repositories {
@@ -132,6 +132,15 @@ subprojects {
 	tasks {
 		withType<JavaCompile> {
 			options.encoding = "UTF-8"
+		}
+
+		withType<Jar> {
+			doLast {
+				copy {
+					from("./build/libs/")
+					into("../release/")
+				}
+			}
 		}
 
 		withType<AbstractArchiveTask> {
