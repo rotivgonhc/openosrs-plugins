@@ -1,4 +1,4 @@
-# External Plugins
+# OpenOSRS Plugins
 
 External plugins for use with OpenOSRS.
 

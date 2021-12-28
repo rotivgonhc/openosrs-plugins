@@ -154,16 +154,16 @@ public class AutoFletchDartsPlugin extends Plugin
 			stopPlugin("No feathers in inventory");
 			return;
 		}
+		WidgetItem dartTip = dartTips.get(0);
+		WidgetItem feather = feathers.get(0);
+
+		if (feather == null || dartTip == null)
+		{
+			stopPlugin("No feathers or dart tips were found");
+			return;
+		}
 
 		clientThread.invoke(() -> {
-			WidgetItem dartTip = dartTips.get(0);
-			WidgetItem feather = feathers.get(0);
-
-			if (feather == null || dartTip == null)
-			{
-				return;
-			}
-
 			client.setSelectedItemWidget(WidgetInfo.INVENTORY.getId());
 			client.setSelectedItemSlot(dartTip.getIndex());
 			client.setSelectedItemID(dartTip.getId());
@@ -199,6 +199,7 @@ public class AutoFletchDartsPlugin extends Plugin
 
 	public void stopPlugin(String reason)
 	{
+		chinBreakHandler.stopPlugin(this);
 		pluginStarted = false;
 
 		if (reason != null && !reason.isEmpty())

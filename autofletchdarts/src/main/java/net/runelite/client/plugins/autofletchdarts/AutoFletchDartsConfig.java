@@ -7,38 +7,6 @@ public interface AutoFletchDartsConfig extends Config
 {
 	@ConfigTitle(
 			position = 0,
-			keyName = "delaySection",
-			name = "Settings",
-			description = ""
-	)
-	String delaySection = "delaySection";
-
-	@ConfigItem(
-			keyName = "clickDelayMin",
-			name = "Click Delay Min (ms)",
-			description = "The minimum delay between clicks (in milliseconds)",
-			position = 0,
-			title = "delaySection"
-	)
-	default int clickDelayMin()
-	{
-		return 20;
-	}
-
-	@ConfigItem(
-			keyName = "clickDelayMax",
-			name = "Click Delay Max (ms)",
-			description = "The maximum delay between clicks (in milliseconds)",
-			position = 1,
-			title = "delaySection"
-	)
-	default int clickDelayMax()
-	{
-		return 200;
-	}
-
-	@ConfigTitle(
-			position = 1,
 			keyName = "controlsSection",
 			name = "Controls",
 			description = ""
