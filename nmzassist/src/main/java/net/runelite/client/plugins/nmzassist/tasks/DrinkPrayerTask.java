@@ -9,7 +9,6 @@ import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
-import net.runelite.api.widgets.WidgetItem;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.plugins.nmzassist.NMZUtils;
 import net.runelite.client.plugins.nmzassist.NMZAssistConfig;
@@ -41,13 +40,13 @@ public class DrinkPrayerTask extends Task
 		}
 
 		//don't have prayer restore potions
-		List<WidgetItem> items = getPrayerRestorePotions();
+		List<Widget> items = getPrayerRestorePotions();
 		if (items == null || items.isEmpty())
 		{
 			return false;
 		}
 
-		WidgetItem item = items.get(0);
+		Widget item = items.get(0);
 
 		if (item == null)
 		{
@@ -76,14 +75,13 @@ public class DrinkPrayerTask extends Task
 	@Override
 	public void onGameTick(GameTick event)
 	{
-
-		List<WidgetItem> items = getPrayerRestorePotions();
+		List<Widget> items = getPrayerRestorePotions();
 		if (items == null || items.isEmpty())
 		{
 			return;
 		}
 
-		WidgetItem item = items.get(0);
+		Widget item = items.get(0);
 
 		if (item == null)
 		{
@@ -94,8 +92,8 @@ public class DrinkPrayerTask extends Task
 				client.invokeMenuAction(
 						"Drink",
 						"<col=ff9040>Potion",
-						item.getId(),
-						MenuAction.ITEM_FIRST_OPTION.getId(),
+						2,
+						MenuAction.CC_OP.getId(),
 						item.getIndex(),
 						WidgetInfo.INVENTORY.getId()
 				)
@@ -113,7 +111,7 @@ public class DrinkPrayerTask extends Task
 		return randomValue.nextInt((config.maxPrayerLevel() - config.minPrayerLevel()) + 1) + config.minPrayerLevel();
 	}
 
-	public List<WidgetItem> getPrayerRestorePotions()
+	public List<Widget> getPrayerRestorePotions()
 	{
 		Widget inventoryWidget = client.getWidget(WidgetInfo.INVENTORY);
 
@@ -121,9 +119,18 @@ public class DrinkPrayerTask extends Task
 		{
 			return null;
 		}
-		return inventoryWidget.getWidgetItems()
-				.stream()
-				.filter(item -> Arrays.asList(ItemID.PRAYER_POTION1, ItemID.PRAYER_POTION2, ItemID.PRAYER_POTION3, ItemID.PRAYER_POTION4).contains(item.getId()))
+
+		Widget[] inventoryItems = inventoryWidget.getDynamicChildren();
+
+		if (inventoryItems == null)
+		{
+			return null;
+		}
+
+		List<Widget> items = Arrays.asList(inventoryItems);
+
+		return items.stream()
+				.filter(item -> Arrays.asList(ItemID.PRAYER_POTION1, ItemID.PRAYER_POTION2, ItemID.PRAYER_POTION3, ItemID.PRAYER_POTION4).contains(item.getItemId()))
 				.collect(Collectors.toList());
 	}
 }

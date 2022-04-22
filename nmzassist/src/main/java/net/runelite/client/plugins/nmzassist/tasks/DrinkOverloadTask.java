@@ -8,7 +8,6 @@ import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
-import net.runelite.api.widgets.WidgetItem;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.plugins.nmzassist.NMZUtils;
 import net.runelite.client.plugins.nmzassist.NMZAssistConfig;
@@ -42,20 +41,18 @@ public class DrinkOverloadTask extends Task
 			return false;
 
 		//don't have overloads
-		Widget inventoryWidget = client.getWidget(WidgetInfo.INVENTORY);
-
-		if (inventoryWidget == null)
+		List<Widget> items = getOverloadPotions();
+		if (items == null || items.isEmpty())
 		{
 			return false;
 		}
 
-		if (inventoryWidget.getWidgetItems()
-				.stream()
-				.filter(item -> Arrays.asList(ItemID.OVERLOAD_1, ItemID.OVERLOAD_2,
-						ItemID.OVERLOAD_3, ItemID.OVERLOAD_4).contains(item.getId()))
-				.collect(Collectors.toList())
-				.isEmpty())
+		Widget item = items.get(0);
+
+		if (item == null)
+		{
 			return false;
+		}
 
 		//less than 50 hp
 		return client.getBoostedSkillLevel(Skill.HITPOINTS) > 50;
@@ -70,24 +67,14 @@ public class DrinkOverloadTask extends Task
 	@Override
 	public void onGameTick(GameTick event)
 	{
-		Widget inventoryWidget = client.getWidget(WidgetInfo.INVENTORY);
-
-		if (inventoryWidget == null)
-		{
-			return;
-		}
-
-		List<WidgetItem> items = inventoryWidget.getWidgetItems()
-				.stream()
-				.filter(item -> Arrays.asList(ItemID.OVERLOAD_1, ItemID.OVERLOAD_2, ItemID.OVERLOAD_3, ItemID.OVERLOAD_4).contains(item.getId()))
-				.collect(Collectors.toList());
+		List<Widget> items = getOverloadPotions();
 
 		if (items == null || items.isEmpty())
 		{
 			return;
 		}
 
-		WidgetItem item = items.get(0);
+		Widget item = items.get(0);
 
 		if (item == null)
 		{
@@ -104,11 +91,34 @@ public class DrinkOverloadTask extends Task
 				client.invokeMenuAction(
 						"Drink",
 						"<col=ff9040>",
-						item.getId(),
-						MenuAction.ITEM_FIRST_OPTION.getId(),
+						2,
+						MenuAction.CC_OP.getId(),
 						item.getIndex(),
 						WidgetInfo.INVENTORY.getId()));
 		delay = getRandomWait();
+	}
+
+	public List<Widget> getOverloadPotions()
+	{
+		Widget inventoryWidget = client.getWidget(WidgetInfo.INVENTORY);
+
+		if (inventoryWidget == null)
+		{
+			return null;
+		}
+
+		Widget[] inventoryItems = inventoryWidget.getDynamicChildren();
+
+		if (inventoryItems == null)
+		{
+			return null;
+		}
+
+		List<Widget> items = Arrays.asList(inventoryItems);
+
+		return items.stream()
+				.filter(item -> Arrays.asList(ItemID.OVERLOAD_1, ItemID.OVERLOAD_2, ItemID.OVERLOAD_3, ItemID.OVERLOAD_4).contains(item.getItemId()))
+				.collect(Collectors.toList());
 	}
 
 	private int getRandomWait()
