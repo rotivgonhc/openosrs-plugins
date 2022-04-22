@@ -164,15 +164,15 @@ public class AutoFletchDartsPlugin extends Plugin
 		}
 
 		clientThread.invoke(() -> {
-			client.setSelectedItemWidget(WidgetInfo.INVENTORY.getId());
-			client.setSelectedItemSlot(dartTip.getIndex());
-			client.setSelectedItemID(dartTip.getId());
+			client.setSelectedSpellWidget(WidgetInfo.INVENTORY.getId());
+			client.setSelectedSpellChildIndex(dartTip.getIndex());
+			client.setSelectedSpellItemId(dartTip.getId());
 			status = "Fletching darts...";
 			client.invokeMenuAction(
 					"Use",
 					"<col=ff9040>dart tip -> Feather",
 					feather.getId(),
-					MenuAction.ITEM_USE_ON_WIDGET_ITEM.getId(),
+					MenuAction.ITEM_USE_ON_ITEM.getId(),
 					feather.getIndex(),
 					WidgetInfo.INVENTORY.getId()
 			);
