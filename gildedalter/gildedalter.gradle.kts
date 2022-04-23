@@ -1,5 +1,9 @@
+import ProjectVersions.openosrsVersion
+
 /*
- * Copyright (c) 2019 Owain van Brakel <https:github.com/Owain94>
+ * Copyright (c) 2019 Owain van Brakel <https://github.com/Owain94>
+ * Copyright (c) 2021 <https://github.com/rotivgonhc>
+ * Copyright (c) 2021 <https://github.com/ben93riggs>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,18 +27,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "rotivgonhc plugins"
+version = "1.0.1"
 
-include(":nmzassist")
-include(":autofletchdarts")
-include(":gildedalter")
+project.extra["PluginName"] = "Gilded Alter" // This is the name that is used in the external plugin manager panel
+project.extra["PluginDescription"] = "Uses bones at an alter in a player owned home" // This is the description that is used in the external plugin manager panel
 
-for (project in rootProject.children) {
-	project.apply {
-		projectDir = file(name)
-		buildFileName = "$name.gradle.kts"
+dependencies {
+	compileOnly("com.openosrs:runelite-api:$openosrsVersion+")
+	compileOnly("com.openosrs:runelite-client:$openosrsVersion+")
+}
 
-		require(projectDir.isDirectory) { "Project '${project.path} must have a $projectDir directory" }
-		require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
+tasks {
+	jar {
+		manifest {
+			attributes(mapOf(
+					"Plugin-Version" to project.version,
+					"Plugin-Id" to nameToId(project.extra["PluginName"] as String),
+					"Plugin-Provider" to project.extra["PluginProvider"],
+					"Plugin-Description" to project.extra["PluginDescription"],
+					"Plugin-License" to project.extra["PluginLicense"]
+			))
+		}
 	}
 }
