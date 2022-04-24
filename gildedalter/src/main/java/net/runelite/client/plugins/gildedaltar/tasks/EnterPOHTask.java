@@ -45,10 +45,10 @@ public class EnterPOHTask extends Task
 				}
 				else
 				{
-					QueryResults<GameObject> objectQueryResults = ((GameObjectQuery) (new GameObjectQuery()).nameEquals(new String[] {"Portal"})).result(this.client);
+					QueryResults<GameObject> objectQueryResults = (new GameObjectQuery()).nameEquals(new String[] {"Portal"}).result(this.client);
 					if (objectQueryResults != null && !objectQueryResults.isEmpty())
 					{
-						GameObject portalObject = (GameObject) objectQueryResults.first();
+						GameObject portalObject = objectQueryResults.first();
 						return portalObject != null;
 					}
 					else
@@ -62,10 +62,10 @@ public class EnterPOHTask extends Task
 
 	public void onGameTick(GameTick event)
 	{
-		QueryResults<GameObject> objectQueryResults = ((GameObjectQuery) (new GameObjectQuery()).nameEquals(new String[] {"Portal"})).result(this.client);
+		QueryResults<GameObject> objectQueryResults = (new GameObjectQuery()).nameEquals(new String[] {"Portal"}).result(this.client);
 		if (objectQueryResults != null && !objectQueryResults.isEmpty())
 		{
-			GameObject portalObject = (GameObject) objectQueryResults.first();
+			GameObject portalObject = objectQueryResults.first();
 			if (portalObject != null)
 			{
 				this.clientThread.invoke(() -> {

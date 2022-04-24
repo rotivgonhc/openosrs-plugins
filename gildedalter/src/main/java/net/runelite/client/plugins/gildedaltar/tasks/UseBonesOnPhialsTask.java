@@ -1,9 +1,6 @@
 package net.runelite.client.plugins.gildedaltar.tasks;
 
-import net.runelite.api.Client;
-import net.runelite.api.MenuAction;
-import net.runelite.api.NPC;
-import net.runelite.api.QueryResults;
+import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.queries.NPCQuery;
 import net.runelite.api.widgets.Widget;
@@ -44,7 +41,7 @@ public class UseBonesOnPhialsTask extends Task
 				}
 				else
 				{
-					List<Widget> notedItems = InventoryHelper.getInventoryItems(this.client, (this.config.boneId() + 1));
+					List<Widget> notedItems = InventoryHelper.getInventoryItems(this.client, MiscUtils.getNotedBoneId(config));
 					if (notedItems != null && !notedItems.isEmpty())
 					{
 						Widget dialogueWidget = this.client.getWidget(WidgetInfo.DIALOG_OPTION_OPTIONS);
@@ -71,7 +68,7 @@ public class UseBonesOnPhialsTask extends Task
 			NPC phials = results.first();
 			if (phials != null)
 			{
-				List<Widget> notedItems = InventoryHelper.getInventoryItems(this.client, (this.config.boneId() + 1));
+				List<Widget> notedItems = InventoryHelper.getInventoryItems(this.client, MiscUtils.getNotedBoneId(config));
 				if (notedItems != null && !notedItems.isEmpty())
 				{
 					Widget notedBones = notedItems.get(0);

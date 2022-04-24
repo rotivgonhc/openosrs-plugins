@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
+import net.runelite.api.ItemID;
 import net.runelite.api.queries.GameObjectQuery;
 
 public class MiscUtils
@@ -31,8 +32,18 @@ public class MiscUtils
 	{
 		assert client.isClientThread();
 
-		return client.getLocalPlayer() == null ? null : (GameObject) ((GameObjectQuery) (new GameObjectQuery()).filter((o) -> {
-			return o.getName().contains(name);
-		})).result(client).nearestTo(client.getLocalPlayer());
+		return client.getLocalPlayer() == null ? null : (new GameObjectQuery()).filter((o) -> o.getName().contains(name)).result(client).nearestTo(client.getLocalPlayer());
+	}
+
+	public static int getNotedBoneId(GildedAltarConfig config)
+	{
+		if (config.boneId() == ItemID.WYVERN_BONES)
+		{
+			return config.boneId() + 4;
+		}
+		else
+		{
+			return config.boneId() + 1;
+		}
 	}
 }

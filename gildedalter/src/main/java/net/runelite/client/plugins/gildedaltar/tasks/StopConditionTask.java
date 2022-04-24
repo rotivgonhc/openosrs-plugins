@@ -4,10 +4,7 @@ import net.runelite.api.Client;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.callback.ClientThread;
-import net.runelite.client.plugins.gildedaltar.GildedAltarConfig;
-import net.runelite.client.plugins.gildedaltar.GildedAltarPlugin;
-import net.runelite.client.plugins.gildedaltar.InventoryHelper;
-import net.runelite.client.plugins.gildedaltar.Task;
+import net.runelite.client.plugins.gildedaltar.*;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class StopConditionTask extends Task
 
 	public boolean validate()
 	{
-		List<Widget> results = InventoryHelper.getInventoryItems(this.client, (this.config.boneId() + 1));
+		List<Widget> results = InventoryHelper.getInventoryItems(this.client, MiscUtils.getNotedBoneId(config));
 		if (results != null && !results.isEmpty())
 		{
 			Widget notedBones = results.get(0);
@@ -62,7 +59,7 @@ public class StopConditionTask extends Task
 
 	public void onGameTick(GameTick event)
 	{
-		List<Widget> results = InventoryHelper.getInventoryItems(this.client, (this.config.boneId() + 1));
+		List<Widget> results = InventoryHelper.getInventoryItems(this.client, MiscUtils.getNotedBoneId(config));
 		if (results != null && !results.isEmpty())
 		{
 			Widget notedBones = results.get(0);
