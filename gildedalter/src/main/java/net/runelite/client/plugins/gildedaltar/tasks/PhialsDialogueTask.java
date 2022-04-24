@@ -75,12 +75,20 @@ public class PhialsDialogueTask extends Task
 			if (dialogueWidget != null)
 			{
 				Widget[] children = dialogueWidget.getChildren();
-				if (children != null && Arrays.stream(children).anyMatch((w) -> {
-					return w.getText().contains("Exchange All");
-				}))
+				if (children != null && Arrays.stream(children).anyMatch((w) -> w.getText().contains("Exchange All")))
 				{
+					int index = 0;
+					for (int i = 0; i < children.length; i++)
+					{
+						if (children[i].getText().contains("Exchange All"))
+						{
+							index = i;
+							break;
+						}
+					}
+					int finalIndex = index;
 					this.clientThread.invoke(() -> {
-						this.client.invokeMenuAction("Continue", "", 0, MenuAction.WIDGET_CONTINUE.getId(), children[3].getIndex(), children[3].getId());
+						this.client.invokeMenuAction("Continue", "", 0, MenuAction.WIDGET_CONTINUE.getId(), children[finalIndex].getIndex(), children[finalIndex].getId());
 					});
 				}
 
