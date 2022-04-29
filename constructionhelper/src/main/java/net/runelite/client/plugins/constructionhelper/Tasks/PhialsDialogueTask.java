@@ -1,4 +1,4 @@
-package net.runelite.client.plugins.gildedaltar.tasks;
+package net.runelite.client.plugins.constructionhelper.Tasks;
 
 import java.util.Arrays;
 
@@ -11,14 +11,14 @@ import net.runelite.api.queries.NPCQuery;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.callback.ClientThread;
-import net.runelite.client.plugins.gildedaltar.GildedAltarConfig;
-import net.runelite.client.plugins.gildedaltar.GildedAltarPlugin;
-import net.runelite.client.plugins.gildedaltar.MiscUtils;
-import net.runelite.client.plugins.gildedaltar.Task;
+import net.runelite.client.plugins.constructionhelper.ConstructionHelperConfig;
+import net.runelite.client.plugins.constructionhelper.ConstructionHelperPlugin;
+import net.runelite.client.plugins.constructionhelper.MiscUtils;
+import net.runelite.client.plugins.constructionhelper.Task;
 
 public class PhialsDialogueTask extends Task
 {
-	public PhialsDialogueTask(GildedAltarPlugin plugin, Client client, ClientThread clientThread, GildedAltarConfig config)
+	public PhialsDialogueTask(ConstructionHelperPlugin plugin, Client client, ClientThread clientThread, ConstructionHelperConfig config)
 	{
 		super(plugin, client, clientThread, config);
 	}
