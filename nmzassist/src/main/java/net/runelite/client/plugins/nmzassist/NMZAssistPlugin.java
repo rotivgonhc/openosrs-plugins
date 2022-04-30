@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Singleton
 @Extension
@@ -79,6 +80,7 @@ public class NMZAssistPlugin extends Plugin
 	private ChatMessageManager chatMessageManager;
 
 	boolean pluginStarted;
+	int timeout;
 
 	@Provides
 	NMZAssistConfig provideConfig(final ConfigManager configManager)
@@ -97,6 +99,7 @@ public class NMZAssistPlugin extends Plugin
 		overlayManager.add(overlay);
 		status = "initializing...";
 		configureTasks();
+		timeout = 0;
 	}
 
 	private void configureTasks()
@@ -118,6 +121,7 @@ public class NMZAssistPlugin extends Plugin
 		pluginStarted = false;
 		overlayManager.remove(overlay);
 		tasks.clear();
+		timeout = 0;
 	}
 
 	@Subscribe
@@ -132,11 +136,13 @@ public class NMZAssistPlugin extends Plugin
 		{
 			pluginStarted = true;
 			configureTasks();
+			timeout = 0;
 		}
 		else if (event.getKey().equals("stopButton"))
 		{
 			pluginStarted = false;
 			tasks.clear();
+			timeout = 0;
 		}
 	}
 
@@ -148,6 +154,7 @@ public class NMZAssistPlugin extends Plugin
 			return;
 		}
 		configureTasks();
+		timeout = 0;
 	}
 
 	@Subscribe
@@ -172,6 +179,11 @@ public class NMZAssistPlugin extends Plugin
 					stopPlugin("Received game message: " + msg);
 				}
 				break;
+			case SPAM:
+				if (msg.contains("You drink some of your overload potion."))
+				{
+					timeout = 12 + (getRandomIntBetweenRange(1, 4));
+				}
 			default:
 				break;
 		}
@@ -205,6 +217,15 @@ public class NMZAssistPlugin extends Plugin
 			return;
 		}
 
+		if (timeout <= 0)
+		{
+			timeout = 0;
+		}
+		else
+		{
+			timeout--;
+			return;
+		}
 		Task task = tasks.getValidTask();
 
 		if (task != null)
@@ -244,5 +265,10 @@ public class NMZAssistPlugin extends Plugin
 		{
 			sendGameMessage("NMZAssist Stopped: " + reason);
 		}
+	}
+
+	private int getRandomIntBetweenRange(int min, int max)
+	{
+		return ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 }
