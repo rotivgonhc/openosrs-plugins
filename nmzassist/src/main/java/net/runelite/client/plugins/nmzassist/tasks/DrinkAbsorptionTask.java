@@ -9,10 +9,9 @@ import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.plugins.nmzassist.*;
 
-public class DrinkOverloadTask extends Task
+public class DrinkAbsorptionTask extends Task
 {
-
-	public DrinkOverloadTask(NMZAssistPlugin plugin, Client client, ClientThread clientThread, NMZAssistConfig config)
+	public DrinkAbsorptionTask(NMZAssistPlugin plugin, Client client, ClientThread clientThread, NMZAssistConfig config)
 	{
 		super(plugin, client, clientThread, config);
 	}
@@ -27,12 +26,9 @@ public class DrinkOverloadTask extends Task
 		{
 			return false;
 		}
-		//already overloaded
-		if (client.getVarbitValue(3955) != 0)
-			return false;
 
-		//don't have overloads
-		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.OVERLOADS);
+		//don't have absorptions
+		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.ABSORPTIONS);
 		if (items == null || items.isEmpty())
 		{
 			return false;
@@ -45,21 +41,24 @@ public class DrinkOverloadTask extends Task
 			return false;
 		}
 
-		//less than 50 hp
-		return client.getBoostedSkillLevel(Skill.HITPOINTS) > 50;
+		if (client.getVarbitValue(Varbits.NMZ_ABSORPTION) >= 900)
+		{
+			return false;
+		}
+
+		return (client.getVarbitValue(Varbits.NMZ_ABSORPTION) < 200);
 	}
 
 	@Override
 	public String getTaskDescription()
 	{
-		return "Drinking Overload";
+		return "Drinking Absorption";
 	}
 
 	@Override
 	public void onGameTick(GameTick event)
 	{
-		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.OVERLOADS);
-
+		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.ABSORPTIONS);
 		if (items == null || items.isEmpty())
 		{
 			return;

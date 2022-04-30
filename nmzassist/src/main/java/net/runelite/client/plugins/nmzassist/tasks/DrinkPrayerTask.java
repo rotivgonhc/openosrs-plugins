@@ -1,19 +1,14 @@
 package net.runelite.client.plugins.nmzassist.tasks;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.callback.ClientThread;
-import net.runelite.client.plugins.nmzassist.NMZUtils;
-import net.runelite.client.plugins.nmzassist.NMZAssistConfig;
-import net.runelite.client.plugins.nmzassist.NMZAssistPlugin;
-import net.runelite.client.plugins.nmzassist.Task;
+import net.runelite.client.plugins.nmzassist.*;
 
 public class DrinkPrayerTask extends Task
 {
@@ -40,7 +35,7 @@ public class DrinkPrayerTask extends Task
 		}
 
 		//don't have prayer restore potions
-		List<Widget> items = getPrayerRestorePotions();
+		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.PRAYER_POTIONS);
 		if (items == null || items.isEmpty())
 		{
 			return false;
@@ -75,7 +70,7 @@ public class DrinkPrayerTask extends Task
 	@Override
 	public void onGameTick(GameTick event)
 	{
-		List<Widget> items = getPrayerRestorePotions();
+		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.PRAYER_POTIONS);
 		if (items == null || items.isEmpty())
 		{
 			return;
@@ -109,28 +104,5 @@ public class DrinkPrayerTask extends Task
 	private int randomRestoreValue()
 	{
 		return randomValue.nextInt((config.maxPrayerLevel() - config.minPrayerLevel()) + 1) + config.minPrayerLevel();
-	}
-
-	public List<Widget> getPrayerRestorePotions()
-	{
-		Widget inventoryWidget = client.getWidget(WidgetInfo.INVENTORY);
-
-		if (inventoryWidget == null)
-		{
-			return null;
-		}
-
-		Widget[] inventoryItems = inventoryWidget.getDynamicChildren();
-
-		if (inventoryItems == null)
-		{
-			return null;
-		}
-
-		List<Widget> items = Arrays.asList(inventoryItems);
-
-		return items.stream()
-				.filter(item -> Arrays.asList(ItemID.PRAYER_POTION1, ItemID.PRAYER_POTION2, ItemID.PRAYER_POTION3, ItemID.PRAYER_POTION4).contains(item.getItemId()))
-				.collect(Collectors.toList());
 	}
 }

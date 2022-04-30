@@ -1,12 +1,48 @@
 package net.runelite.client.plugins.nmzassist;
 
 import net.runelite.api.Client;
+import net.runelite.api.ItemID;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class NMZUtils
 {
 	private static final int[] NMZ_MAP_REGION = {9033};
+	public static final ArrayList<Integer> OVERLOADS = new ArrayList<>()
+	{
+		{
+			add(ItemID.OVERLOAD_1);
+			add(ItemID.OVERLOAD_2);
+			add(ItemID.OVERLOAD_3);
+			add(ItemID.OVERLOAD_4);
+		}
+	};
+	public static final ArrayList<Integer> ABSORPTIONS = new ArrayList<>()
+	{
+		{
+			add(ItemID.ABSORPTION_1);
+			add(ItemID.ABSORPTION_2);
+			add(ItemID.ABSORPTION_3);
+			add(ItemID.ABSORPTION_4);
+		}
+	};
+	public static final ArrayList<Integer> PRAYER_POTIONS = new ArrayList<>()
+	{
+		{
+			add(ItemID.PRAYER_POTION1);
+			add(ItemID.PRAYER_POTION2);
+			add(ItemID.PRAYER_POTION3);
+			add(ItemID.PRAYER_POTION4);
+		}
+	};
+	public static final ArrayList<Integer> LOWER_HP = new ArrayList<>()
+	{
+		{
+			add(ItemID.DWARVEN_ROCK_CAKE_7510);
+			add(ItemID.LOCATOR_ORB);
+		}
+	};
 
 	public static boolean isInNightmareZone(Client client)
 	{

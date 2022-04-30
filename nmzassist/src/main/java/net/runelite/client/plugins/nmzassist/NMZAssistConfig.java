@@ -9,6 +9,17 @@ import net.runelite.client.config.ConfigItem;
 public interface NMZAssistConfig extends Config
 {
 	@ConfigItem(
+			keyName = "mode",
+			name = "Mode",
+			description = "",
+			position = 0
+	)
+	default NMZMode mode()
+	{
+		return NMZMode.ABSORPTIONS;
+	}
+
+	@ConfigItem(
 			keyName = "minPrayerLevel",
 			name = "Minimum Prayer points to sip restore",
 			description = "",

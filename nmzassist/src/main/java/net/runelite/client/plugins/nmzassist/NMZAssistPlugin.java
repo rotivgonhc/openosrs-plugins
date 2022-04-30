@@ -40,13 +40,24 @@ import java.util.List;
 )
 public class NMZAssistPlugin extends Plugin
 {
-	static List<Class<?>> taskClassList = new ArrayList<>();
+	static List<Class<?>> prayerPotionClassList = new ArrayList<>();
 
 	static
 	{
-		taskClassList.add(DrinkOverloadTask.class);
-		taskClassList.add(DrinkPrayerTask.class);
-		taskClassList.add(ResetIdleTask.class);
+		prayerPotionClassList.add(DrinkOverloadTask.class);
+		prayerPotionClassList.add(DrinkPrayerTask.class);
+		prayerPotionClassList.add(ResetIdleTask.class);
+	}
+
+	static List<Class<?>> absorptionClassList = new ArrayList<>();
+
+	static
+	{
+		absorptionClassList.add(DrinkOverloadTask.class);
+		absorptionClassList.add(DrinkAbsorptionTask.class);
+		absorptionClassList.add(DrinkPrayerTask.class);
+		absorptionClassList.add(LowerHpTask.class);
+		absorptionClassList.add(ResetIdleTask.class);
 	}
 
 	@Inject
@@ -85,8 +96,20 @@ public class NMZAssistPlugin extends Plugin
 		pluginStarted = false;
 		overlayManager.add(overlay);
 		status = "initializing...";
+		configureTasks();
+	}
+
+	private void configureTasks()
+	{
 		tasks.clear();
-		tasks.addAll(this, client, clientThread, config, taskClassList);
+		if (this.config.mode() == NMZMode.PRAYER_POTIONS)
+		{
+			tasks.addAll(this, client, clientThread, config, prayerPotionClassList);
+		}
+		else if (this.config.mode() == NMZMode.ABSORPTIONS)
+		{
+			tasks.addAll(this, client, clientThread, config, absorptionClassList);
+		}
 	}
 
 	@Override
@@ -108,10 +131,12 @@ public class NMZAssistPlugin extends Plugin
 		if (event.getKey().equals("startButton"))
 		{
 			pluginStarted = true;
+			configureTasks();
 		}
 		else if (event.getKey().equals("stopButton"))
 		{
 			pluginStarted = false;
+			tasks.clear();
 		}
 	}
 
@@ -122,8 +147,7 @@ public class NMZAssistPlugin extends Plugin
 		{
 			return;
 		}
-		tasks.clear();
-		tasks.addAll(this, client, clientThread, config, taskClassList);
+		configureTasks();
 	}
 
 	@Subscribe

@@ -9,10 +9,9 @@ import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.plugins.nmzassist.*;
 
-public class DrinkOverloadTask extends Task
+public class LowerHpTask extends Task
 {
-
-	public DrinkOverloadTask(NMZAssistPlugin plugin, Client client, ClientThread clientThread, NMZAssistConfig config)
+	public LowerHpTask(NMZAssistPlugin plugin, Client client, ClientThread clientThread, NMZAssistConfig config)
 	{
 		super(plugin, client, clientThread, config);
 	}
@@ -27,12 +26,9 @@ public class DrinkOverloadTask extends Task
 		{
 			return false;
 		}
-		//already overloaded
-		if (client.getVarbitValue(3955) != 0)
-			return false;
 
-		//don't have overloads
-		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.OVERLOADS);
+		//don't have items to lower hp
+		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.LOWER_HP);
 		if (items == null || items.isEmpty())
 		{
 			return false;
@@ -45,21 +41,24 @@ public class DrinkOverloadTask extends Task
 			return false;
 		}
 
-		//less than 50 hp
-		return client.getBoostedSkillLevel(Skill.HITPOINTS) > 50;
+		if (client.getVarbitValue(3955) == 0 && InventoryHelper.hasItems(client, NMZUtils.OVERLOADS))
+		{
+			return false;
+		}
+
+		return (client.getBoostedSkillLevel(Skill.HITPOINTS) > 2);
 	}
 
 	@Override
 	public String getTaskDescription()
 	{
-		return "Drinking Overload";
+		return "Lowering HP";
 	}
 
 	@Override
 	public void onGameTick(GameTick event)
 	{
-		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.OVERLOADS);
-
+		List<Widget> items = InventoryHelper.getItems(client, NMZUtils.LOWER_HP);
 		if (items == null || items.isEmpty())
 		{
 			return;
@@ -72,13 +71,21 @@ public class DrinkOverloadTask extends Task
 			return;
 		}
 
+		String option = "Guzzle";
+		if (item.getItemId() == ItemID.LOCATOR_ORB)
+		{
+			option = "Feel";
+		}
+		String finalOption = option;
 		clientThread.invoke(() ->
 				client.invokeMenuAction(
-						"Drink",
-						"<col=ff9040>",
+						finalOption,
+						"",
 						2,
 						MenuAction.CC_OP.getId(),
 						item.getIndex(),
-						WidgetInfo.INVENTORY.getId()));
+						WidgetInfo.INVENTORY.getId()
+				)
+		);
 	}
 }
