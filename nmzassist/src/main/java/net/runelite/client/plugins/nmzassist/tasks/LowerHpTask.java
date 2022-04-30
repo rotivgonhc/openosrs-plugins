@@ -46,7 +46,7 @@ public class LowerHpTask extends Task
 			return false;
 		}
 
-		return (client.getBoostedSkillLevel(Skill.HITPOINTS) > 2);
+		return (client.getBoostedSkillLevel(Skill.HITPOINTS) >= 2);
 	}
 
 	@Override
@@ -72,16 +72,19 @@ public class LowerHpTask extends Task
 		}
 
 		String option = "Guzzle";
+		int id = 4;
 		if (item.getItemId() == ItemID.LOCATOR_ORB)
 		{
 			option = "Feel";
+			id = 2;
 		}
 		String finalOption = option;
+		int finalId = id;
 		clientThread.invoke(() ->
 				client.invokeMenuAction(
 						finalOption,
 						"",
-						2,
+						finalId,
 						MenuAction.CC_OP.getId(),
 						item.getIndex(),
 						WidgetInfo.INVENTORY.getId()
