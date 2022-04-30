@@ -1,6 +1,7 @@
 package net.runelite.client.plugins.nmzassist.tasks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
@@ -11,9 +12,14 @@ import net.runelite.client.plugins.nmzassist.*;
 
 public class DrinkAbsorptionTask extends Task
 {
+	protected Random randomValue;
+	protected int nextValue = 0;
+
 	public DrinkAbsorptionTask(NMZAssistPlugin plugin, Client client, ClientThread clientThread, NMZAssistConfig config)
 	{
 		super(plugin, client, clientThread, config);
+		this.randomValue = new Random();
+		this.nextValue = randomValue.nextInt((800 - 100) + 1) + 100;
 	}
 
 	@Override
@@ -46,7 +52,7 @@ public class DrinkAbsorptionTask extends Task
 			return false;
 		}
 
-		return (client.getVarbitValue(Varbits.NMZ_ABSORPTION) < 200);
+		return (client.getVarbitValue(Varbits.NMZ_ABSORPTION) < nextValue);
 	}
 
 	@Override
@@ -79,5 +85,7 @@ public class DrinkAbsorptionTask extends Task
 						MenuAction.CC_OP.getId(),
 						item.getIndex(),
 						WidgetInfo.INVENTORY.getId()));
+
+		this.nextValue = randomValue.nextInt((800 - 100) + 1) + 100;
 	}
 }
