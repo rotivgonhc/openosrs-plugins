@@ -19,7 +19,7 @@ public class DrinkAbsorptionTask extends Task
 	{
 		super(plugin, client, clientThread, config);
 		this.randomValue = new Random();
-		this.nextValue = randomValue.nextInt((800 - 100) + 1) + 100;
+		this.nextValue = randomValue.nextInt((800 - 200) + 1) + 200;
 	}
 
 	@Override
@@ -86,6 +86,6 @@ public class DrinkAbsorptionTask extends Task
 						item.getIndex(),
 						WidgetInfo.INVENTORY.getId()));
 
-		this.nextValue = randomValue.nextInt((800 - 100) + 1) + 100;
+		this.nextValue = randomValue.nextInt((800 - 200) + 1) + 200;
 	}
 }
