@@ -5,6 +5,7 @@ import net.runelite.api.ItemID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class NMZUtils
 {
@@ -54,4 +55,10 @@ public class NMZUtils
 		// NMZ and the KBD lair uses the same region ID but NMZ uses planes 1-3 and KBD uses plane 0
 		return client.getLocalPlayer().getWorldLocation().getPlane() > 0 && Arrays.equals(client.getMapRegions(), NMZ_MAP_REGION);
 	}
+
+	public static int getRandomIntBetweenRange(int min, int max)
+	{
+		return ThreadLocalRandom.current().nextInt(min, max + 1);
+	}
+
 }

@@ -9,12 +9,16 @@ import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.plugins.nmzassist.*;
 
+import static net.runelite.client.plugins.nmzassist.NMZUtils.getRandomIntBetweenRange;
+
 public class DrinkOverloadTask extends Task
 {
+	private int timer;
 
 	public DrinkOverloadTask(NMZAssistPlugin plugin, Client client, ClientThread clientThread, NMZAssistConfig config)
 	{
 		super(plugin, client, clientThread, config);
+		timer = getRandomIntBetweenRange(1, 120);
 	}
 
 	@Override
@@ -72,13 +76,21 @@ public class DrinkOverloadTask extends Task
 			return;
 		}
 
-		clientThread.invoke(() ->
-				client.invokeMenuAction(
-						"Drink",
-						"<col=ff9040>",
-						2,
-						MenuAction.CC_OP.getId(),
-						item.getIndex(),
-						WidgetInfo.INVENTORY.getId()));
+		if (timer <= 0)
+		{
+			timer = getRandomIntBetweenRange(1, 100);
+			clientThread.invoke(() ->
+					client.invokeMenuAction(
+							"Drink",
+							"<col=ff9040>",
+							2,
+							MenuAction.CC_OP.getId(),
+							item.getIndex(),
+							WidgetInfo.INVENTORY.getId()));
+		}
+		else
+		{
+			timer--;
+		}
 	}
 }

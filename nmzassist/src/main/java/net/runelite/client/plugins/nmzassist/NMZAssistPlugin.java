@@ -29,7 +29,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+
+import static net.runelite.client.plugins.nmzassist.NMZUtils.getRandomIntBetweenRange;
 
 @Singleton
 @Extension
@@ -180,9 +181,12 @@ public class NMZAssistPlugin extends Plugin
 				}
 				break;
 			case SPAM:
-				if (msg.contains("You drink some of your overload potion."))
+				if (this.config.mode() == NMZMode.ABSORPTIONS)
 				{
-					timeout = 12 + (getRandomIntBetweenRange(1, 4));
+					if (msg.contains("You drink some of your overload potion."))
+					{
+						timeout = 12 + (getRandomIntBetweenRange(1, 4));
+					}
 				}
 			default:
 				break;
@@ -265,10 +269,5 @@ public class NMZAssistPlugin extends Plugin
 		{
 			sendGameMessage("NMZAssist Stopped: " + reason);
 		}
-	}
-
-	private int getRandomIntBetweenRange(int min, int max)
-	{
-		return ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 }
