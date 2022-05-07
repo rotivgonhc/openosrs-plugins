@@ -26,7 +26,7 @@ import ProjectVersions.openosrsVersion
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "1.0.9"
+version = "1.0.10"
 
 project.extra["PluginName"] = "NMZ Assist" // This is the name that is used in the external plugin manager panel
 project.extra["PluginDescription"] = "Helps with drinking potions in NMZ" // This is the description that is used in the external plugin manager panel

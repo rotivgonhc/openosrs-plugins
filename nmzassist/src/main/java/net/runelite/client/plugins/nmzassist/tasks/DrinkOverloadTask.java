@@ -49,6 +49,12 @@ public class DrinkOverloadTask extends Task
 			return false;
 		}
 
+		if (timer > 0)
+		{
+			timer--;
+			return false;
+		}
+
 		//less than 50 hp
 		return client.getBoostedSkillLevel(Skill.HITPOINTS) > 50;
 	}
