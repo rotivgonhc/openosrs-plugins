@@ -27,7 +27,7 @@ import ProjectVersions.openosrsVersion
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "1.0.7"
+version = "1.0.8"
 
 project.extra["PluginName"] = "Construction Helper" // This is the name that is used in the external plugin manager panel
 project.extra["PluginDescription"] = "Train construction in POH" // This is the description that is used in the external plugin manager panel

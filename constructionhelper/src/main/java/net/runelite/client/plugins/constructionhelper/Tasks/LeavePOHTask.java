@@ -34,7 +34,7 @@ public class LeavePOHTask extends Task
 		{
 			List<Widget> items = InventoryHelper.getInventoryItems(this.client, this.config.mode().getPlankId());
 
-			if (items == null || items.isEmpty())
+			if (items == null)
 			{
 				return false;
 			}
